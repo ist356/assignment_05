@@ -1,0 +1,541 @@
+Rank,City,Cost of Living Index,year
+,"Hamilton, Bermuda",142.1,2023
+,"Basel, Switzerland",127.0,2023
+,"Zurich, Switzerland",120.8,2023
+,"Lausanne, Switzerland",119.7,2023
+,"Zug, Switzerland",118.5,2023
+,"Bern, Switzerland",116.1,2023
+,"Santa Barbara, CA, United States",112.2,2023
+,"George Town, Cayman Islands",107.2,2023
+,"Geneva, Switzerland",107.1,2023
+,"Honolulu, HI, United States",102.7,2023
+,"New York, NY, United States",100.0,2023
+,"San Francisco, CA, United States",99.6,2023
+,"Nassau, Bahamas",97.0,2023
+,"Oslo, Norway",93.5,2023
+,"Seattle, WA, United States",92.9,2023
+,"Stavanger, Norway",91.0,2023
+,"Oakland, CA, United States",90.1,2023
+,"Bergen, Norway",90.0,2023
+,"Anchorage, AK, United States",88.0,2023
+,"Trondheim, Norway",86.7,2023
+,"Tromso, Norway",86.4,2023
+,"Saint Helier, Jersey",86.0,2023
+,"Singapore, Singapore",85.9,2023
+,"Reykjavik, Iceland",85.8,2023
+,"Odense, Denmark",85.0,2023
+,"Sacramento, CA, United States",84.7,2023
+,"Boston, MA, United States",84.6,2023
+,"Irvine, CA, United States",84.0,2023
+,"Washington, DC, United States",83.8,2023
+,"San Jose, CA, United States",83.2,2023
+,"San Diego, CA, United States",82.9,2023
+,"Brisbane, Australia",82.5,2023
+,"Copenhagen, Denmark",82.3,2023
+,"Nashville, TN, United States",81.9,2023
+,"Miami, FL, United States",81.9,2023
+,"Denver, CO, United States",81.7,2023
+,"Sydney, Australia",81.5,2023
+,"Canberra, Australia",81.3,2023
+,"Adelaide, Australia",81.1,2023
+,"Portland, OR, United States",80.9,2023
+,"Aarhus, Denmark",80.7,2023
+,"Netanya, Israel",80.5,2023
+,"New Orleans, LA, United States",80.5,2023
+,"Ramat Gan, Israel",80.5,2023
+,"Perth, Australia",80.4,2023
+,"Beirut, Lebanon",80.3,2023
+,"Tel Aviv-Yafo, Israel",80.3,2023
+,"Raleigh, NC, United States",80.1,2023
+,"Philadelphia, PA, United States",79.3,2023
+,"Chicago, IL, United States",79.0,2023
+,"Seoul, South Korea",78.9,2023
+,"Los Angeles, CA, United States",78.7,2023
+,"Auckland, New Zealand",78.1,2023
+,"Wellington, New Zealand",77.9,2023
+,"Melbourne, Australia",77.9,2023
+,"Pittsburgh, PA, United States",77.8,2023
+,"Charlotte, NC, United States",77.6,2023
+,"Cleveland, OH, United States",77.3,2023
+,"Espoo, Finland",77.3,2023
+,"Dallas, TX, United States",77.1,2023
+,"Buffalo, NY, United States",77.1,2023
+,"Dublin, Ireland",77.1,2023
+,"Nice, France",77.0,2023
+,"Aalborg, Denmark",76.9,2023
+,"Indianapolis, IN, United States",76.5,2023
+,"Baltimore, MD, United States",76.4,2023
+,"Haarlem, Netherlands",76.4,2023
+,"Tampa, FL, United States",76.3,2023
+,"Paris, France",76.1,2023
+,"Omaha, NE, United States",75.9,2023
+,"Petah Tikva, Israel",75.8,2023
+,"Hong Kong, Hong Kong (China)",75.7,2023
+,"Birmingham, AL, United States",75.0,2023
+,"Victoria, Canada",75.0,2023
+,"Fort Worth, TX, United States",75.0,2023
+,"Minneapolis, MN, United States",74.9,2023
+,"Haifa, Israel",74.7,2023
+,"Nanaimo, BC, Canada",74.7,2023
+,"Luxembourg, Luxembourg",74.6,2023
+,"Utrecht, Netherlands",74.4,2023
+,"Lyon, France",74.2,2023
+,"London, United Kingdom",74.2,2023
+,"Phoenix, AZ, United States",74.0,2023
+,"Detroit, MI, United States",74.0,2023
+,"Chattanooga, TN, United States",73.8,2023
+,"Atlanta, GA, United States",73.8,2023
+,"Tokyo, Japan",73.7,2023
+,"Milan, Italy",73.6,2023
+,"Jerusalem, Israel",73.5,2023
+,"Austin, TX, United States",73.2,2023
+,"Munich, Germany",73.1,2023
+,"Columbus, OH, United States",73.0,2023
+,"Toronto, Canada",73.0,2023
+,"Fort Lauderdale, FL, United States",72.9,2023
+,"Nijmegen, Netherlands",72.9,2023
+,"Spokane, WA, United States",72.7,2023
+,"Las Vegas, NV, United States",72.7,2023
+,"Reno, NV, United States",72.6,2023
+,"San Juan, Puerto Rico",72.5,2023
+,"Colorado Springs, CO, United States",72.1,2023
+,"Fresno, CA, United States",72.0,2023
+,"Madison, WI, United States",71.9,2023
+,"Vancouver, Canada",71.7,2023
+,"Orlando, FL, United States",71.4,2023
+,"Amsterdam, Netherlands",71.4,2023
+,"Calgary, Canada",71.3,2023
+,"Milwaukee, WI, United States",71.3,2023
+,"Breda, Netherlands",71.2,2023
+,"Valletta, Malta",70.9,2023
+,"Stockholm, Sweden",70.8,2023
+,"Oklahoma City, OK, United States",70.7,2023
+,"Hamburg, Germany",70.4,2023
+,"Maastricht, Netherlands",70.3,2023
+,"Boise, ID, United States",70.2,2023
+,"Turku, Finland",70.2,2023
+,"Frankfurt, Germany",70.1,2023
+,"Groningen, Netherlands",70.1,2023
+,"Jacksonville, FL, United States",69.9,2023
+,"Houston, TX, United States",69.9,2023
+,"Hobart, Australia",69.9,2023
+,"Cambridge, United Kingdom",69.8,2023
+,"Markham, Canada",69.8,2023
+,"Innsbruck, Austria",69.7,2023
+,"Berlin, Germany",69.7,2023
+,"Macao, Macao (China)",69.6,2023
+,"Edmonton, Canada",69.5,2023
+,"Guildford, United Kingdom",69.3,2023
+,"Kamloops, Canada",69.3,2023
+,"Galway, Ireland",69.2,2023
+,"Fredericton, Canada",69.1,2023
+,"Antwerp, Belgium",69.1,2023
+,"Toulouse, France",69.0,2023
+,"Helsinki, Finland",68.9,2023
+,"Brussels, Belgium",68.8,2023
+,"Cork, Ireland",68.8,2023
+,"Eindhoven, Netherlands",68.5,2023
+,"Hamilton, New Zealand",68.4,2023
+,"Tucson, AZ, United States",68.3,2023
+,"Kansas City, MO, United States",68.2,2023
+,"Ottawa, Canada",68.2,2023
+,"Graz, Austria",68.1,2023
+,"Albuquerque, NM, United States",68.1,2023
+,"Gold Coast, Australia",68.1,2023
+,"Dusseldorf, Germany",68.1,2023
+,"Halifax, Canada",67.9,2023
+,"Quebec City, Canada",67.9,2023
+,"Saint Louis, MO, United States",67.8,2023
+,"Christchurch, New Zealand",67.8,2023
+,"San Antonio, TX, United States",67.6,2023
+,"Grenoble, France",67.5,2023
+,"Hamilton, Canada",67.5,2023
+,"Nagoya, Japan",67.5,2023
+,"Rotterdam, Netherlands",67.2,2023
+,"Brighton, United Kingdom",67.2,2023
+,"Salzburg, Austria",67.1,2023
+,"Leuven, Belgium",67.0,2023
+,"Bonn, Germany",67.0,2023
+,"Linz, Austria",66.7,2023
+,"Florence, Italy",66.7,2023
+,"Nantes, France",66.7,2023
+,"Louisville, KY, United States",66.5,2023
+,"Red Deer, Canada",66.5,2023
+,"Saskatoon, Canada",66.4,2023
+,"Surrey, Canada",66.3,2023
+,"Heidelberg, Germany",66.2,2023
+,"Gent, Belgium",66.2,2023
+,"Bologna, Italy",66.2,2023
+,"Rome, Italy",66.1,2023
+,"Cologne, Germany",66.1,2023
+,"Salt Lake City, UT, United States",65.8,2023
+,"Sliema, Malta",65.8,2023
+,"Winnipeg, Canada",65.7,2023
+,"Bristol, United Kingdom",65.6,2023
+,"Karlsruhe, Germany",65.6,2023
+,"Osaka, Japan",65.5,2023
+,"Limerick, Ireland",65.5,2023
+,"Oxford, United Kingdom",65.5,2023
+,"Genoa, Italy",65.5,2023
+,"Marseille, France",65.5,2023
+,"Delft, Netherlands",65.4,2023
+,"Mannheim, Germany",65.4,2023
+,"Dubai, United Arab Emirates",65.3,2023
+,"Trento, Italy",65.3,2023
+,"Montreal, Canada",65.3,2023
+,"Reading, United Kingdom",65.2,2023
+,"Bergamo, Italy",65.2,2023
+,"London, Canada",65.1,2023
+,"Dortmund, Germany",65.1,2023
+,"Memphis, TN, United States",65.1,2023
+,"Trieste, Italy",64.9,2023
+,"Mississauga, Canada",64.8,2023
+,"Lund, Sweden",64.7,2023
+,"Parma, Italy",64.7,2023
+,"Freiburg im Breisgau, Germany",64.7,2023
+,"Cincinnati, OH, United States",64.4,2023
+,"Kitchener, Canada",64.3,2023
+,"Uppsala, Sweden",64.3,2023
+,"Brescia, Italy",64.2,2023
+,"Enschede, Netherlands",64.1,2023
+,"Kelowna, Canada",64.1,2023
+,"Stuttgart, Germany",64.1,2023
+,"Manchester, United Kingdom",64.0,2023
+,"Larnaca, Cyprus",63.7,2023
+,"Kingston, Canada",63.7,2023
+,"Treviso, Italy",63.7,2023
+,"Tampere, Finland",63.7,2023
+,"Bremen, Germany",63.6,2023
+,"Liverpool, United Kingdom",63.6,2023
+,"Brampton, Canada",63.5,2023
+,"Bournemouth, United Kingdom",63.4,2023
+,"Glasgow, United Kingdom",63.3,2023
+,"Padova, Italy",62.8,2023
+,"Malmo, Sweden",62.7,2023
+,"The Hague (Den Haag), Netherlands",62.7,2023
+,"Cagliari, Italy",62.7,2023
+,"Nottingham, United Kingdom",62.5,2023
+,"Plymouth, United Kingdom",62.4,2023
+,"Lille, France",62.4,2023
+,"Hanover, Germany",62.3,2023
+,"Gothenburg, Sweden",62.2,2023
+,"Regina, Canada",62.0,2023
+,"Leeds, United Kingdom",62.0,2023
+,"Bari, Italy",61.9,2023
+,"Vienna, Austria",61.8,2023
+,"Belfast, United Kingdom",61.8,2023
+,"Verona, Italy",61.4,2023
+,"Derby, United Kingdom",61.4,2023
+,"Edinburgh, United Kingdom",61.4,2023
+,"Windsor, Canada",61.3,2023
+,"Turin, Italy",61.2,2023
+,"Newcastle upon Tyne, United Kingdom",61.0,2023
+,"Leipzig, Germany",60.9,2023
+,"Norwich, United Kingdom",60.9,2023
+,"Limassol, Cyprus",60.7,2023
+,"Knoxville, TN, United States",60.7,2023
+,"Al Khobar, Saudi Arabia",60.7,2023
+,"Southampton, United Kingdom",60.6,2023
+,"Essen, Germany",60.6,2023
+,"Nuremberg, Germany",59.9,2023
+,"Athens, Greece",59.8,2023
+,"Exeter, United Kingdom",59.8,2023
+,"Sheffield, United Kingdom",59.8,2023
+,"Doha, Qatar",59.6,2023
+,"Tallinn, Estonia",59.6,2023
+,"Aachen, Germany",59.4,2023
+,"Montevideo, Uruguay",59.3,2023
+,"Portsmouth, United Kingdom",59.1,2023
+,"Cardiff, United Kingdom",59.1,2023
+,"Suzhou, China",59.0,2023
+,"Coventry, United Kingdom",58.8,2023
+,"Barcelona, Spain",58.7,2023
+,"Dresden, Germany",58.6,2023
+,"Aberdeen, United Kingdom",58.6,2023
+,"Birmingham, United Kingdom",58.2,2023
+,"Shiraz, Iran",57.6,2023
+,"Taipei, Taiwan",57.6,2023
+,"Naples, Italy",57.5,2023
+,"Kingston, Jamaica",57.3,2023
+,"Dundee, United Kingdom",57.1,2023
+,"Bilbao, Spain",57.1,2023
+,"Ramallah, Palestine",57.0,2023
+,"Leicester, United Kingdom",57.0,2023
+,"Port of Spain, Trinidad And Tobago",56.7,2023
+,"New Taipei City, Taiwan",56.6,2023
+,"Palermo, Italy",56.1,2023
+,"Abu Dhabi, United Arab Emirates",55.9,2023
+,"Thessaloniki, Greece",55.8,2023
+,"Male, Maldives",55.7,2023
+,"Nicosia, Cyprus",55.7,2023
+,"Riga, Latvia",54.9,2023
+,"Prague, Czech Republic",54.6,2023
+,"Havana, Cuba",54.6,2023
+,"Madrid, Spain",54.5,2023
+,"Palma de Mallorca, Spain",54.2,2023
+,"Ljubljana, Slovenia",54.1,2023
+,"Riyadh, Saudi Arabia",53.5,2023
+,"Heraklion, Greece",53.2,2023
+,"Zadar, Croatia",53.2,2023
+,"Catania, Italy",52.9,2023
+,"Larissa, Greece",52.9,2023
+,"Tartu, Estonia",52.7,2023
+,"Jeddah (Jiddah), Saudi Arabia",52.4,2023
+,"Dubrovnik, Croatia",51.8,2023
+,"Vilnius, Lithuania",51.6,2023
+,"Lisbon, Portugal",51.5,2023
+,"Valencia, Spain",51.4,2023
+,"Pamplona, Spain",51.2,2023
+,"Manama, Bahrain",51.2,2023
+,"Zagreb, Croatia",51.0,2023
+,"Panama City, Panama",50.4,2023
+,"Oviedo, Spain",50.4,2023
+,"Bratislava, Slovakia",50.4,2023
+,"Alicante, Spain",50.2,2023
+,"San Jose, Costa Rica",50.1,2023
+,"Muscat, Oman",50.0,2023
+,"Seville (Sevilla), Spain",49.9,2023
+,"Granada, Spain",49.8,2023
+,"Bangkok, Thailand",49.8,2023
+,"Paphos, Cyprus",49.8,2023
+,"Santo Domingo, Dominican Republic",49.8,2023
+,"Kaohsiung, Taiwan",49.3,2023
+,"Malaga, Spain",49.3,2023
+,"Vladivostok, Russia",49.0,2023
+,"Ad Dammam, Saudi Arabia",48.8,2023
+,"Amman, Jordan",48.7,2023
+,"Brno, Czech Republic",48.5,2023
+,"Porto, Portugal",48.3,2023
+,"Kaunas, Lithuania",48.2,2023
+,"Olomouc, Czech Republic",47.8,2023
+,"Phnom Penh, Cambodia",47.7,2023
+,"Plzen, Czech Republic",47.7,2023
+,"Ostrava, Czech Republic",47.7,2023
+,"Shanghai, China",47.7,2023
+,"Maribor, Slovenia",47.6,2023
+,"Kuwait City, Kuwait",47.5,2023
+,"Murcia, Spain",47.5,2023
+,"Las Palmas de Gran Canaria, Spain",47.3,2023
+,"Dakar, Senegal",47.2,2023
+,"Sharjah, United Arab Emirates",47.0,2023
+,"Santiago, Chile",46.8,2023
+,"Cascais, Portugal",46.7,2023
+,"Santa Cruz de Tenerife, Spain",46.7,2023
+,"Kosice, Slovakia",46.3,2023
+,"Georgetown, Guyana",46.3,2023
+,"Beijing, China",46.2,2023
+,"Moscow, Russia",46.2,2023
+,"Sofia, Bulgaria",46.2,2023
+,"Rijeka, Croatia",45.9,2023
+,"Split, Croatia",45.6,2023
+,"Zaragoza (Saragossa), Spain",45.5,2023
+,"Funchal, Portugal",45.3,2023
+,"Budapest, Hungary",45.3,2023
+,"San Salvador, El Salvador",45.3,2023
+,"Klaipeda, Lithuania",45.1,2023
+,"Makati, Philippines",45.1,2023
+,"Saint Petersburg, Russia",44.8,2023
+,"Vigo, Spain",44.5,2023
+,"Addis Ababa, Ethiopia",44.2,2023
+,"Shenzhen, China",44.1,2023
+,"Warsaw, Poland",44.0,2023
+,"Coimbra, Portugal",43.7,2023
+,"Guatemala City, Guatemala",43.4,2023
+,"Bucharest, Romania",43.2,2023
+,"Abidjan, Ivory Coast",43.0,2023
+,"Braga, Portugal",43.0,2023
+,"Aveiro, Portugal",42.9,2023
+,"Leiria, Portugal",42.8,2023
+,"Caracas, Venezuela",42.6,2023
+,"Belgrade, Serbia",42.4,2023
+,"Monterrey, Mexico",42.2,2023
+,"Yekaterinburg, Russia",42.0,2023
+,"Phuket, Thailand",42.0,2023
+,"Yerevan, Armenia",41.7,2023
+,"Budva, Montenegro",41.6,2023
+,"Osijek, Croatia",41.5,2023
+,"Tbilisi, Georgia",41.5,2023
+,"Cluj-Napoca, Romania",41.3,2023
+,"Tijuana, Mexico",41.3,2023
+,"Harare, Zimbabwe",41.3,2023
+,"Sao Paulo, Brazil",41.2,2023
+,"Hangzhou, China",41.2,2023
+,"Krakow (Cracow), Poland",41.2,2023
+,"Wroclaw, Poland",41.1,2023
+,"Novosibirsk, Russia",41.1,2023
+,"Tirana, Albania",41.0,2023
+,"Constanta, Romania",41.0,2023
+,"Mexico City, Mexico",40.8,2023
+,"Quezon City, Philippines",40.6,2023
+,"Gdynia, Poland",40.5,2023
+,"Johannesburg, South Africa",40.5,2023
+,"Varna, Bulgaria",40.1,2023
+,"Kazan, Russia",40.0,2023
+,"Kuching, Malaysia",39.9,2023
+,"Krasnodar, Russia",39.9,2023
+,"Cancun, Mexico",39.6,2023
+,"Gdansk, Poland",39.6,2023
+,"Puebla, Mexico",39.5,2023
+,"Katowice, Poland",39.5,2023
+,"Pattaya, Thailand",39.4,2023
+,"Szeged, Hungary",39.1,2023
+,"Chengdu, China",38.9,2023
+,"Brasov, Romania",38.9,2023
+,"Lagos, Nigeria",38.8,2023
+,"Merida, Mexico",38.7,2023
+,"Kuala Lumpur, Malaysia",38.7,2023
+,"Kaliningrad, Russia",38.7,2023
+,"Voronezh, Russia",38.7,2023
+,"Sarajevo, Bosnia And Herzegovina",38.6,2023
+,"Bialystok, Poland",38.6,2023
+,"Guangzhou, China",38.4,2023
+,"Plovdiv, Bulgaria",38.4,2023
+,"Szczecin, Poland",38.3,2023
+,"Samara, Russia",38.2,2023
+,"Guayaquil, Ecuador",38.2,2023
+,"Cuenca, Ecuador",38.2,2023
+,"Podgorica, Montenegro",38.2,2023
+,"Rio de Janeiro, Brazil",38.2,2023
+,"Nizhny Novgorod, Russia",37.9,2023
+,"Manila, Philippines",37.9,2023
+,"Poznan, Poland",37.8,2023
+,"Chiang Mai, Thailand",37.7,2023
+,"Brasilia, Brazil",37.7,2023
+,"Pretoria, South Africa",37.7,2023
+,"Queretaro (Santiago de Querétaro), Mexico",37.6,2023
+,"Gaborone, Botswana",37.6,2023
+,"Guadalajara, Mexico",37.4,2023
+,"Burgas, Bulgaria",37.4,2023
+,"Oradea, Romania",37.3,2023
+,"Ufa, Russia",37.3,2023
+,"Ho Chi Minh City, Vietnam",37.2,2023
+,"Novi Sad, Serbia",37.2,2023
+,"Perm, Russia",37.2,2023
+,"Cape Town, South Africa",37.2,2023
+,"Minsk, Belarus",37.1,2023
+,"Puerto Vallarta, Mexico",37.1,2023
+,"Khartoum, Sudan",37.0,2023
+,"Durban, South Africa",37.0,2023
+,"Lodz, Poland",36.9,2023
+,"Skopje, North Macedonia",36.8,2023
+,"Penang, Malaysia",36.8,2023
+,"Yangon, Myanmar",36.8,2023
+,"Timisoara, Romania",36.7,2023
+,"Banja Luka, Bosnia And Herzegovina",36.6,2023
+,"Iasi, Romania",36.6,2023
+,"Rostov-on-Don (Rostov-na-donu), Russia",36.6,2023
+,"Cebu, Philippines",36.5,2023
+,"Hanoi, Vietnam",36.4,2023
+,"Campinas, Brazil",36.3,2023
+,"Florianopolis, Brazil",36.3,2023
+,"Suva, Fiji",36.2,2023
+,"Quito, Ecuador",36.0,2023
+,"Bursa, Turkey",35.9,2023
+,"Nanjing, China",35.9,2023
+,"Petaling Jaya, Malaysia",35.8,2023
+,"Lima, Peru",35.8,2023
+,"Debrecen, Hungary",35.7,2023
+,"Tuzla, Bosnia And Herzegovina",35.5,2023
+,"Lublin, Poland",35.4,2023
+,"Craiova, Romania",35.1,2023
+,"Jakarta, Indonesia",35.1,2023
+,"Erbil (Irbil), Iraq",35.1,2023
+,"La Paz, Bolivia",35.1,2023
+,"Batumi, Ajara, Georgia",35.0,2023
+,"Sibiu, Romania",34.7,2023
+,"Nairobi, Kenya",34.6,2023
+,"Istanbul, Turkey",34.6,2023
+,"Belo Horizonte, Brazil",34.5,2023
+,"Sao Jose dos Campos, Brazil",34.5,2023
+,"Windhoek, Namibia",34.3,2023
+,"Curitiba, Brazil",34.3,2023
+,"Porto Alegre, Brazil",34.1,2023
+,"Chisinau, Moldova",33.9,2023
+,"Recife, Brazil",33.8,2023
+,"Marrakech, Morocco",33.3,2023
+,"Tehran, Iran",33.2,2023
+,"Nis, Serbia",33.2,2023
+,"Santa Cruz, Bolivia",33.1,2023
+,"Casablanca, Morocco",33.0,2023
+,"Baghdad, Iraq",32.9,2023
+,"Kampala, Uganda",32.9,2023
+,"Ulaanbaatar, Mongolia",32.8,2023
+,"Qingdao, Shandong, China",32.7,2023
+,"Isfahan (Esfahan), Iran",32.2,2023
+,"Rabat, Morocco",32.1,2023
+,"Buenos Aires, Argentina",31.6,2023
+,"Algiers, Algeria",31.4,2023
+,"Bandung, Indonesia",31.4,2023
+,"Dar es Salaam, Tanzania",31.2,2023
+,"Baku, Azerbaijan",30.9,2023
+,"Almaty, Kazakhstan",30.9,2023
+,"Kiev (Kyiv), Ukraine",30.8,2023
+,"Tunis, Tunisia",30.7,2023
+,"Kigali, Rwanda",30.6,2023
+,"Surabaya, Indonesia",30.0,2023
+,"Pristina, Kosovo (Disputed Territory)",29.9,2023
+,"Damascus, Syria",29.6,2023
+,"Asuncion, Paraguay",29.6,2023
+,"Dhaka, Bangladesh",29.6,2023
+,"Astana (Nur-Sultan), Kazakhstan",29.4,2023
+,"Antalya, Turkey",29.3,2023
+,"Izmir, Turkey",29.1,2023
+,"Tashkent, Uzbekistan",29.1,2023
+,"Agadir, Morocco",29.0,2023
+,"Tangier, Morocco",29.0,2023
+,"Ankara, Turkey",28.7,2023
+,"Accra, Ghana",28.6,2023
+,"Mersin, Turkey",28.2,2023
+,"Mashhad, Iran",28.1,2023
+,"Colombo, Sri Lanka",27.6,2023
+,"Eskisehir, Turkey",27.5,2023
+,"Gurgaon, India",27.5,2023
+,"Kocaeli, Turkey",27.3,2023
+,"Kathmandu, Nepal",27.2,2023
+,"Dnipro, Ukraine",27.1,2023
+,"Tripoli, Libya",26.8,2023
+,"Bishkek, Kyrgyzstan",26.7,2023
+,"Odessa (Odesa), Ukraine",26.6,2023
+,"Noida, India",26.5,2023
+,"Lviv, Ukraine",26.2,2023
+,"Chittagong, Bangladesh",26.0,2023
+,"Mumbai, India",25.7,2023
+,"Bangalore, India",25.7,2023
+,"Navi Mumbai, India",25.4,2023
+,"Hyderabad, India",25.1,2023
+,"Delhi, India",25.0,2023
+,"Medellin, Colombia",24.9,2023
+,"Cartagena, Colombia",24.7,2023
+,"Bogota, Colombia",24.5,2023
+,"Kharkiv, Ukraine",24.5,2023
+,"Konya, Turkey",24.4,2023
+,"Adana, Turkey",24.3,2023
+,"Ahmedabad, India",24.1,2023
+,"Cairo, Egypt",24.1,2023
+,"Pune, India",24.0,2023
+,"Patna, India",23.9,2023
+,"Guwahati, India",23.8,2023
+,"Chandigarh, India",23.8,2023
+,"Cali, Colombia",23.4,2023
+,"Barranquilla, Colombia",23.4,2023
+,"Chennai, India",23.3,2023
+,"Lucknow (Lakhnau), India",22.5,2023
+,"Indore, India",22.4,2023
+,"Bhubaneswar, India",22.3,2023
+,"Vadodara, India",22.3,2023
+,"Kolkata, India",22.2,2023
+,"Jaipur, India",22.1,2023
+,"Kochi, India",21.5,2023
+,"Alexandria, Egypt",21.3,2023
+,"Coimbatore, India",21.3,2023
+,"Thiruvananthapuram, India",21.0,2023
+,"Bhopal, India",20.9,2023
+,"Lahore, Pakistan",20.7,2023
+,"Giza, Egypt",20.6,2023
+,"Karachi, Pakistan",19.8,2023
+,"Islamabad, Pakistan",19.7,2023
+,"Bucaramanga, Colombia",19.6,2023
+,"Rawalpindi, Pakistan",16.4,2023
+,"Faisalabad, Pakistan",16.1,2023
+,"Multan, Pakistan",15.6,2023
+,"Peshawar, Pakistan",15.1,2023
