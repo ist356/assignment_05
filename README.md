@@ -1,4 +1,4 @@
-# IST356 Assignment 04 (assignment_04)
+# IST356 Assignment 05 (assignment_05)
 
 ## Meta
 
@@ -23,7 +23,7 @@ The each assignment will have a common layout.
 
 Before starting this assignment you must:
 
-Install the assignemnt python requirements:
+Install the assignment python requirements:
 
 1. From VS Code, open a terminal: Menu => Terminal => New Terminal
 2. In the terminal, type and enter: `pip install -r requirements.txt`
@@ -35,7 +35,7 @@ There is some code and tests already working in this assignment. These are sanit
 
 1. Open **Testing** in the activity bar: Menu => View => Testing
 2. You'll need to install the testing tools. Choose **pytest**
-3. Open the **>** by clicking on it next to **assignment_04**. Keep clicking on **>** until you see **test_should_pass** in the **test_assignment.py**
+3. Open the **>** by clicking on it next to **assignment_05**. Keep clicking on **>** until you see **test_should_pass** in the **test_assignment.py**
 4. Click the Play button `|>` next to **test_should_pass** to execute the test. 
 5. A green check means the test code ran and the test has passed.
 6. A red X means the test code ran but the test has failed. When a test fails you will be given an error message and stack trace with line numbers.
