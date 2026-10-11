@@ -1,5 +1,5 @@
 """
-payroll_report_app.py — the quarter at a glance, for someone who has never opened a terminal.
+payroll_report_app.py — the quarter at a glance, for someone who never opens a terminal.
 
 Every Friday since September the office manager at Salt City Coffee has downloaded
 a payroll export from the Assignment 04 app; before that she typed the same file

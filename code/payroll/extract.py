@@ -111,10 +111,12 @@ def _old_style_date(rng: random.Random, day: date) -> str:
 
 
 def _money(amount: float) -> str:
+    """Dollars the way the old spreadsheet showed them: "$1,029.00"."""
     return f"${amount:,.2f}"
 
 
 def _week_rows(rng: random.Random, day: date, old_style: bool) -> list[dict]:
+    """One Friday's export rows: 8 to 12 employees, old- or new-style text."""
     worked = sorted(rng.sample(sorted(ROSTER_RATES), rng.randint(8, 12)))
     rows = []
     for employee_id in worked:

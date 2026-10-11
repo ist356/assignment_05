@@ -17,7 +17,8 @@
         "ms-python.python",
         "ms-toolsai.jupyter",
         "ms-python.black-formatter",
-        "ms-python.pylint"
+        "ms-python.pylint",
+        "charliermarsh.ruff"
       ],
       "settings": {
         "python.testing.pytestEnabled": true,

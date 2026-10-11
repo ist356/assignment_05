@@ -38,7 +38,7 @@ def hours_grid(history: pd.DataFrame) -> pd.DataFrame:
 
 
 def missed_weeks(grid: pd.DataFrame) -> pd.DataFrame:
-    """Every (employee, week) with zero hours in the grid — the weeks each person missed.
+    """Every (employee, week) with zero hours in the grid — the weeks people missed.
 
     Takes the output of `hours_grid`. Returns a long table with columns
     `employee_id`, `display_name`, `week_ending`, `hours_worked`, holding only

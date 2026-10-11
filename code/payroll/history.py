@@ -149,9 +149,10 @@ def add_clean_columns(history: pd.DataFrame) -> pd.DataFrame:
     How to build it:
 
     - `out = history.copy()` — never modify the frame you were handed.
-    - One line per row of the table: `out["employee_id"] = clean_employee_id(out["employeeid"])`,
-      and so on. Each function takes a whole column and returns a whole column,
-      so there is no `apply` here.
+    - One line per row of the table:
+      `out["employee_id"] = clean_employee_id(out["employeeid"])`, and so on.
+      Each function takes a whole column and returns a whole column, so there
+      is no `apply` here.
     - `return out`.
     - Why name the new column `employee_id` and not `employeeid_clean`? Because
       that is what the roster calls it, and Step 2 merges on it with `on=`.
@@ -161,7 +162,7 @@ def add_clean_columns(history: pd.DataFrame) -> pd.DataFrame:
 
 
 def add_date_parts(history: pd.DataFrame) -> pd.DataFrame:
-    """Return a copy with two text columns taken from `pay_date`: `week_ending` and `month`.
+    """Return a copy with two text columns from `pay_date`: `week_ending`, `month`.
 
         pay_date 2026-08-14   ->   week_ending "2026-08-14",  month "2026-08"
 
@@ -181,4 +182,3 @@ def add_date_parts(history: pd.DataFrame) -> pd.DataFrame:
     """
     # TODO: your code here
     pass
-

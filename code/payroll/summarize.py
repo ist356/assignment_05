@@ -28,8 +28,8 @@ def format_name(names: pd.Series) -> pd.Series:
 
         "Moss, Pete"              ->  "Pete Moss"
         "O'Furniture, Patty"      ->  "Patty O'Furniture"
-        "Docktur-Indahaus,Sara"   ->  "Sara Docktur-Indahaus"    # no space after the comma
-        "  Job ,  Anita "         ->  "Anita Job"                # stray spaces anywhere
+        "Docktur-Indahaus,Sara"   ->  "Sara Docktur-Indahaus"   # no space after ","
+        "  Job ,  Anita "         ->  "Anita Job"               # stray spaces
 
     Steps: split every value on the comma with `.str.split(",")` — each value
     becomes a list, and `.str[0]` / `.str[1]` pick an item out of every list.
@@ -41,7 +41,7 @@ def format_name(names: pd.Series) -> pd.Series:
 
 
 def add_roster(history: pd.DataFrame, employees: pd.DataFrame) -> pd.DataFrame:
-    """Return the history with two roster columns added: `display_name` and `department`.
+    """Return the history with two roster columns added: display_name, department.
 
     One row per history row, in the same order — every week anyone was paid
     stays, and an `employee_id` that is not on the roster gets `NaN` in both new

@@ -1,5 +1,5 @@
 """
-explore.py — run the pipeline one step at a time on the real quarter.  *(Provided for you.)*
+explore.py — run the pipeline one step at a time.  *(Provided for you.)*
 
 Tests do not stop at breakpoints; this script does. Open it, set a breakpoint on
 any line below (or inside one of your functions), and run it with
@@ -34,7 +34,7 @@ def show(label: str, frame) -> None:
     """Print one step's result, or stop with a hint if the step is not written yet."""
     print(f"\n=== {label}")
     if frame is None:
-        print("    returned None — this function is still a stub. Write it, then run again.")
+        print("    returned None — this function is still a stub. Write it, run again.")
         raise SystemExit(0)
     print(f"    {frame.shape[0]} rows x {frame.shape[1]} columns")
     print(frame.head(6))

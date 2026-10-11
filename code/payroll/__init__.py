@@ -1,5 +1,5 @@
 """
-payroll — the quarter-report pipeline behind the payroll report app.  *(Provided for you.)*
+payroll — the pipeline behind the quarterly report app.  *(Provided for you.)*
 
     from payroll import load_employees, load_export, build_history, summarize_employees
 
@@ -15,7 +15,13 @@ you have written its body, or `import payroll` fails and every test goes red at
 once. That is why the stubs keep every function signature.
 """
 
-from .extract import export_files, generate_history, load_all_exports, load_employees, load_export
+from .extract import (
+    export_files,
+    generate_history,
+    load_all_exports,
+    load_employees,
+    load_export,
+)
 from .history import (
     add_clean_columns,
     add_date_parts,
