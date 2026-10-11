@@ -1,173 +1,592 @@
-# IST356 Assignment 05 (assignment_05)
+# IST356 Assignment 05 — The Quarter in Review
+
+It's the end of October at **Salt City Coffee**, and the weekly payroll app you built
+in Assignment 04 has been running since September. Every Friday the office manager
+uploads the timesheet and downloads the payroll export — `payrolldate, employeeid,
+hours, rate, total` — for the online payroll provider. Before the app, she typed that
+same file into a spreadsheet by hand. So there's a folder with a quarter of history in
+it: twelve weekly exports, seven of them hand-typed and five from your app.
+
+Now everyone has a question the weekly page can't answer. The **owner** wants to know
+where the hours went this quarter, and who's been working overtime. The **accountant**
+wants gross pay by month and department, as a CSV. And the **office manager** wants
+to see who has been missing shifts. Each answer means looking at many weeks at once —
+and the hand-typed weeks are a mess: dates like `"8/14/2026"`, IDs like `" e004"` and
+`"E4"`, money like `"$1,029.00"`.
+
+You're going to build the page that answers all three. Behind it is the next stage of
+the pipeline, and it uses the rest of unit 3:
+
+- **Strings and dates** (lesson 3-6) — clean a whole column at once with `.str`, and
+  turn text into real dates with `pd.to_datetime` and `.dt`.
+- **Group by** (lesson 3-5) — go from *one row per person per week* to *one row per
+  person*.
+- **Pivot and melt** (lesson 3-5) — turn long tables wide for people to read, and back
+  to long again to find the weeks nobody was paid.
+
+Assignment 04's lineage rule still holds for every step that widens the history. The
+new idea this week is **grain**: a group-by or a pivot doesn't widen a table, it builds
+a *new* one at a different grain. That's allowed — as long as the history it was built
+from is left untouched.
 
 ## Meta
 
 ### Learning Objectives
 
-This assignment you will use pandas to build a data pipeline. 
+By the end of this assignment you will be able to:
+
+1. **Clean a whole column with vectorized `.str` methods** (`strip`, `upper`, `zfill`, `replace`, `split`) instead of `apply`
+2. **Convert text to numbers with `pd.to_numeric(errors="coerce")`** and fill what couldn't be read
+3. **Parse dates with `pd.to_datetime`**, naming the `format=` and coercing anything unreadable to `NaT`, even when a column mixes two formats
+4. **Use the `.dt` accessor** to format dates as labels and to filter by date
+5. **Stack many files into one DataFrame with `pd.concat`**, and explain what `ignore_index=True` prevents
+6. **Explain grain** — what one row stands for — and tell a step that widens a table from one that changes its grain
+7. **Summarize with `groupby` and named aggregation**, including a lambda, and bring the keys back with `reset_index`
+8. **Reshape long to wide with `pivot_table`** (`fill_value=0`) and **wide to long with `melt`**
+9. **Use the pivot-then-melt round trip** to make rows that don't exist in the source — the weeks someone *wasn't* paid
+10. **Build a multi-file Streamlit report** with filters (`st.selectbox`, `st.date_input`), metrics, a bar chart and a download
+11. **Read three kinds of tests** — unit, pipeline (lineage and grain), and structure — and know which one to look at when something fails
 
 ### Assignment Layout
 
-The each assignment will have a common layout.
+- `code/` — **where you write code.** Only files in this folder are reviewed for grading.
+  - `payroll/` — the **pipeline package**
+    - `__init__.py` — **provided.** Declares the package's public API
+    - `extract.py` — **provided.** Loads the roster and the exports; generates histories for the tests
+    - `history.py` — **Step 1, you write this.** Combine the weeks, clean text and dates (walked through line by line)
+    - `summarize.py` — **Step 2, you write this.** Add the roster, then group by employee (the steps described, the code yours)
+    - `reshape.py` — **Step 3, you write this.** `pivot_table` and `melt` (**on your own**)
+  - `payroll_report_app.py` — the **Streamlit page** that puts it all together (**on your own**)
+  - `explore.py` — **provided.** Runs the pipeline one step at a time so you can debug it
+  - `reflection.txt` — **where you write your reflection** (graded)
+- `data/` — `employees.csv` (the roster) and `exports/` (twelve weekly payroll exports, 2026-08-07 to 2026-10-23)
+- `tests/` — the automated tests
+  - `test_unit.py` — **Unit Tests** for the four Series functions
+  - `test_pipeline.py` — **Pipeline & App Tests**: lineage and grain on every step, the real quarter, the page
+  - `test_code.py` — **Code Structure Tests**: how it was built — `.str`, `to_datetime`, `groupby`, `pivot_table`, `melt`, the lineage rule
+- `grader/` — the autograder used by GraderThan (you don't touch this)
+- `.devcontainer/` — configures the pre-built course dev container (`mafudge/ist356:latest`)
+- `.streamlit/` / `.vscode/` — Streamlit settings and run / debug / test configurations
+- `README.md` — these instructions
+- `reflection.md` — how to write a good reflection
+- `rubric.json` / `requirements.txt` — grading rubric and Python dependencies
+- `payroll_report_app.png` — a screenshot of the finished app
 
-- `code` folder contains our code / application. This is where you will create files and write code.
-- `code/solution` folder contains the solution to the assignment, for reference.
-- `data` data files folder
-- `tests` folder contains code to test our application
-- `requirements.txt` contains the packages we need to `pip install` to execute the application code
-- `readme.md` contains these instructions
-- `.vscode` folder contains VS Code setup configurations for running / debugging the application and tests.
-- `reflection.md` is where you submit your reflection, comments on what you learned, things that confuse you, etc.
+You write **thirteen functions** across three modules — most are a few lines — and **one
+Streamlit page**. `extract.py`, `__init__.py` and `explore.py` are given; read them, but
+don't change them.
 
-### Prerequisites 
+### Prerequisites
 
-Before starting this assignment you must:
+Same environment as Assignments 01–04. pandas and Streamlit are already in the course
+container; `requirements.txt` asks for `streamlit>=1.56` because the app tests use
+Streamlit's testing module, and the container installs it when it first builds.
 
-Install the assignment python requirements:
+If you haven't done the one-time course setup yet:
 
-1. From VS Code, open a terminal: Menu => Terminal => New Terminal
-2. In the terminal, type and enter: `pip install -r requirements.txt`
+👉 https://mafudge.github.io/ist356/0-intro/0-0-setup.html
 
+> **No computer setup? Use GitHub Codespaces** to run everything in your browser — you
+> only need a GitHub account.
 
-### Running Tests
+---
 
-There is some code and tests already working in this assignment. These are sanity checks to ensure VS Code is configured properly.
+## Prep — Open the assignment
 
-1. Open **Testing** in the activity bar: Menu => View => Testing
-2. You'll need to install the testing tools. Choose **pytest**
-3. Open the **>** by clicking on it next to **assignment_05**. Keep clicking on **>** until you see **test_should_pass** in the **test_assignment.py**
-4. Click the Play button `|>` next to **test_should_pass** to execute the test. 
-5. A green check means the test code ran and the test has passed.
-6. A red X means the test code ran but the test has failed. When a test fails you will be given an error message and stack trace with line numbers.
+Same as before: **first fork, then** pick **one** of two ways to open your fork in the
+course environment.
 
-## Assignment: https://www.askamanager.org/
+1. **Fork this repository.** At the top-right of this repo's GitHub page, click
+   **Fork**. This makes your own personal copy under your GitHub account. You submit
+   and are graded on *your fork* — work done anywhere else cannot be graded.
 
-[https://www.askamanager.org/](https://www.askamanager.org/) has a salary survey its members complete. We will use this data to build out a data pipeline.
+Now choose **Option A** (in the browser — nothing to install) **or** **Option B** (on
+your own computer). Everything in the Walkthrough works the same either way.
 
-Survey is here: [https://www.askamanager.org/2021/04/how-much-money-do-you-make-4.html](https://www.askamanager.org/2021/04/how-much-money-do-you-make-4.html) They make the data publically available.
+### Option A — GitHub Codespaces (in the browser) ⭐ easiest
 
-You can view the data here: [https://docs.google.com/spreadsheets/d/1IPS5dBSGtwYVbjsfbaMCYIWnOuRmJcbequohNxCyGVw/edit?resourcekey=&gid=1625408792](https://docs.google.com/spreadsheets/d/1IPS5dBSGtwYVbjsfbaMCYIWnOuRmJcbequohNxCyGVw/edit?resourcekey=&gid=1625408792)
+1. Go to **your fork's** page on GitHub. Click the green **Code** button, then the
+   **Codespaces** tab.
+2. Click **Create codespace on main**. The container builds (the first time takes a few
+   minutes) and installs this assignment's dependencies for you.
+3. VS Code opens in your browser, already **inside the course container**, with your
+   fork's code loaded and Git signed in. You can skip cloning — you're ready.
+
+> Reopen an existing Codespace anytime from **https://github.com/codespaces**. Codespaces
+> have monthly free hours, so **stop** yours when you're done: `github.com/codespaces` →
+> **⋯ → Stop codespace**.
 
-You can download the data with `pd.read_csv` using this version of the URL:
-[https://docs.google.com/spreadsheets/d/1IPS5dBSGtwYVbjsfbaMCYIWnOuRmJcbequohNxCyGVw/export?resourcekey=&gid=1625408792&format=csv](https://docs.google.com/spreadsheets/d/1IPS5dBSGtwYVbjsfbaMCYIWnOuRmJcbequohNxCyGVw/export?resourcekey=&gid=1625408792&format=csv)
+### Option B — Your own computer (local dev container)
 
-You will need a US state name to abbreviation lookup table, which you can build here:
-[https://docs.google.com/spreadsheets/d/14wvnQygIX1eCVo7H5B7a96W1v5VCg6Q9yeRoESF6epw/export?format=csv](https://docs.google.com/spreadsheets/d/14wvnQygIX1eCVo7H5B7a96W1v5VCg6Q9yeRoESF6epw/export?format=csv)
+Requires Docker Desktop and VS Code from the [course setup](https://mafudge.github.io/ist356/0-intro/0-0-setup.html).
 
+1. **Clone your fork.** On your fork's page, click the green **Code** button and copy
+   the HTTPS URL, then clone it: `Ctrl+Shift+P` → **Git: Clone**, paste the URL, pick a
+   folder. Or from a terminal:
 
-### The Job!
+   ```sh
+   git clone https://github.com/YOUR-GITHUB-USERNAME/assignment_05.git
+   ```
 
-You have been hired by askamanager.org to produce two specific reports from their data:
+   > Make sure the URL has **your** username in it, not `ist356`.
 
-1. a cross tabulation of US city / state of employment (row), to the highest degree obtained (col). At ther intersection for example: Boise, ID and High School should be the average annual salary as adjusted for cost of living in that city. 
+2. **Open the folder and reopen in the container.** **File → Open Folder** → the cloned
+   `assignment_05` folder → click **Reopen in Container** when VS Code offers it
+   (or `Ctrl+Shift+P` → **Dev Containers: Reopen in Container**).
+
+### Check you're ready
+
+Open the **Testing** panel (View → Testing) and run the tests
+([Reference #8](#8-how-do-i-run-automated-tests)). You should see **0 passing and 65
+failing** — that is exactly right. Every test is about a function you haven't written
+yet. All red is the correct starting line. (Many of those 65 are the same unit test run
+on different inputs, so the count drops fast once a function works.)
 
-2. Similar to the first report but by age demographic in the column.
+If instead you see *no tests at all*, that is a different problem — see
+[Reference #8](#8-how-do-i-run-automated-tests).
 
-They need the reports on an Amazon S3 bucket in `csv` format so they can display the data in their dashboarding Application.
+---
 
+## About the data — read this before you start
 
-This job is best suited for the classic Extract-Transform-Load, or ETL pipeline. You can build data pipelines without using the ETL approach, but using this method breaks them up logically and makes them more resilient to change.
+| file | one row per | columns |
+| --- | --- | --- |
+| `data/employees.csv` | **person** (12 of them) | `employee_id` (`"E004"`), `name` (`"Moss, Pete"`), `department`, `hourly_rate` |
+| `data/exports/payroll_<date>.csv` | **person paid that week** (8–12 rows) | `payrolldate`, `employeeid`, `hours`, `rate`, `total` |
+
+`load_export` adds a sixth column to every export, `source_file`, so each row
+remembers which week's file it came from.
+
+HR's new system writes names **last name first**. The exports come in two styles:
+
+| column | old spreadsheet (2026-08-07 to 09-18) | Assignment 04 app (2026-09-25 on) |
+| --- | --- | --- |
+| `payrolldate` | `"08/14/2026"`, `"8/14/2026"` | `"2026-09-25"` |
+| `employeeid` | `"E004"`, `"e004"`, `" E004"`, `"E4"`, `"e4 "` | `"E004"` |
+| `hours` | `"35.25"`, `" 35.25"`, `"35.00"` | `"35.25"` |
+| `rate`, `total` | `"$18.50"`, `"$1,013.25"` | `"18.5"`, `"1013.25"` |
+
+`extract.py` reads every value as **text** — that is deliberate. Your Step 1 functions
+have to read every spelling in that table, and the rule from Assignment 02 still holds:
+**coerce and carry on.** Unreadable money is `0.0`; an unreadable date is `NaT`.
+
+**Generated histories.** `extract.py` also has `generate_history(seed)`: a made-up run of
+4–7 weekly exports, old style then new, the same every time for the same seed. The
+pipeline tests run your code on several seeds — there is no version of "make the test
+pass" that isn't "actually write the function."
+
+**The real quarter, for checking your work:** 113 rows across 12 weeks, every row
+matching the roster, **3,107.00 hours** and **$57,761.63** in gross pay.
+
+---
+
+## Walkthrough — Do the assignment step by step
+
+Work in order. Each step tells you *what* to do; when you need the *mechanics*, follow
+the link to the matching **Reference — How do I…?** entry below.
+
+### The training wheels come off
+
+| module | what you get |
+| --- | --- |
+| `history.py` — Step 1 | every function's docstring ends with a **How to build it** that is nearly line by line |
+| `summarize.py` — Step 2 | docstrings describe the steps in words; the code is yours |
+| `reshape.py` — Step 3 | docstrings state the contract and nothing else |
+| `payroll_report_app.py` | the goal, the widgets, the exact labels — and Assignments 03 and 04 beside you |
+
+### Build order at a glance
+
+| order | write this | turns green |
+| --- | --- | --- |
+| 1 | `clean_employee_id`, `clean_number`, `parse_pay_date` | `test_unit.py` — all but `format_name` |
+| 2 | `combine_exports`, `add_clean_columns`, `add_date_parts` | `test_pipeline.py -k "combine or clean or date_parts"` |
+| 3 | `format_name`, `add_roster`, `build_history` | `test_unit.py -k format_name`, `test_pipeline.py -k "roster or build or generated"` |
+| 4 | `summarize_employees` | `test_pipeline.py -k summarize` |
+| 5 | `hours_grid`, `missed_weeks`, `pay_by_month` | `test_pipeline.py -k "grid or missed or month"` |
+| 6 | `payroll_report_app.py` | `test_pipeline.py -k app` |
+| 7 | *(structure checks go green along the way)* | `test_code.py` |
+| 8 | `reflection.txt` | — |
+
+Every DataFrame test is **scoped**: `test_summarize_employees_values` hands the function
+a small history that is already clean, so it passes when *that* function works — even if
+Step 1 is still broken. When a scoped test passes but a `real_quarter` test fails, the
+function is fine and something upstream is feeding it bad data.
+
+### Step 1 — Read what you've been given
 
+Open `code/payroll/extract.py` and run it (**Python Debugger: Current File**). It prints
+the roster, an old-spreadsheet week, an app week and a generated week. Look at
+`employeeid`. Look at `payrolldate`. You cannot clean what you have not seen.
 
-### The Process
+Then open `code/explore.py`. It runs the pipeline one step at a time on the real quarter
+and prints what each step returns — and stops, politely, at the first function you
+haven't written. Run it after every function you finish
+([Reference #9](#9-how-do-i-debug-a-pipeline-step)).
+
+### Step 2 — Part 1: `history.py`, a quarter of text into one clean table
 
-`pandaslib.py` 
+1. **`clean_employee_id`, `clean_number`, `parse_pay_date`** — three Series functions:
+   a whole column in, a whole column out. Follow each *How to build it*. They are
+   `.str` and `pd.to_datetime` instead of `apply` — [Reference #2](#2-how-do-i-clean-a-whole-column-with-str)
+   and [Reference #3](#3-how-do-i-parse-dates-and-what-is-nat). The trap in
+   `clean_employee_id` is `"E4"`: uppercase isn't enough, it has to become `"E004"`.
+2. **`combine_exports`** — one `pd.concat`. Don't skip `ignore_index=True`
+   ([Reference #4](#4-how-do-i-stack-many-files-into-one-dataframe)).
+3. **`add_clean_columns`** and **`add_date_parts`** — Assignment 04's copy-add-return
+   shape, one new column per line. The raw columns stay exactly as typed.
 
+Run `pytest tests/test_unit.py` and `pytest tests/test_pipeline.py -k "combine or clean or date_parts"`.
 
-Start by implementing the functions in `pandaslib.py` there are tests in `test_pandaslib.py` to help you along the way. Make sure the tests pass before moving on to the next part are writing the ETL.
+### Step 3 — Commit and get early feedback
 
-After you've completed this part commit your changes to git, but DO NOT PUSH.
+Commit `step 1: history` ([Reference #10](#10-how-do-i-commit-my-changes-in-vs-code)),
+push, and submit to GraderThan ([Reference #13](#13-how-do-i-submit-for-grading--and-review-my-feedback--with-graderthan)).
+See what partial credit looks like and read the style feedback while there's time to act
+on it.
 
+### Step 4 — Part 2: `summarize.py`, the roster on, then one row per person
 
+1. **`format_name`** — `"Moss, Pete"` → `"Pete Moss"` with `.str.split(",")`. Watch
+   for the name with no space after the comma.
+2. **`add_roster`** — the same one-sided merge as Assignment 04, with the roster cut
+   down to the three columns the history needs. It only matches if `clean_employee_id`
+   did its job: run `explore.py` and look for `NaN` in `department`.
+3. **`build_history`** — chain the four row-level steps. Then run
+   `pytest tests/test_pipeline.py -k "build or generated"`: these are the tests that run
+   your whole pipeline on the real quarter and on histories it has never seen.
+4. **`summarize_employees`** — your first group-by. Group on the three identity
+   columns, compute five numbers per group with **named aggregation**, `reset_index()`,
+   sort ([Reference #5](#5-how-do-i-group-by-and-name-the-results)). The overtime count
+   needs a lambda.
+
+### Step 5 — Commit
+
+Commit `step 2: summarize`, push, submit.
+
+### Step 6 — Part 3: `reshape.py` *(on your own)*
 
-`extract.py`
+Three functions, and the docstrings are the whole spec
+([Reference #6](#6-how-do-i-pivot-and-melt)):
 
-In the extract phase you pull your data from the internet and store it locally for further processing. This way you are not constantly accessing the internet and scraping data more than you need to. This also decouples the transformation logic from the logic that fetches the data. This way if the source data changes we don't need to re-implement the transformations. 
+- **`hours_grid`** — employees down the side, one column per week, hours in the cells,
+  **0** where someone wasn't paid.
+- **`missed_weeks`** — melt that grid back to rows and keep the zeros. That's the only
+  way to see an absence: no export has a row for someone who didn't work.
+- **`pay_by_month`** — months down the side, departments across the top. It's the
+  accountant's CSV *and* the shape `st.bar_chart` wants.
+
+Check against the real quarter: 31 missed (employee, week) pairs; September's Kitchen
+pay is $7,172.27.
 
-- For each file you extract save it in `.csv` format with a header to the `cache` folder. The basic process is to read the file, add lineage, then write as a `.csv` to the `cache` folder. 
-- Extract the states with codes google sheet. Save as `cache/states.csv`
-- Extract the survey google sheet, and engineer a `year` column from the `Timestamp` using the `extract_year_mdy` function in `pandaslib.py`. Then save as `cache/survey.csv`
-- For each unique year in the surveys: extract the cost of living for that year from the website, engineer a `year` column for that year, then save as `cache/col_{year}.csv` for example for `2024` it would be `cache/col_2024.csv`
+### Step 7 — Commit
 
-After you've completed this part commit your changes to git, but DO NOT PUSH.
+Commit `step 3: reshape`, push, submit. The pipeline is done; everything below is the
+page.
 
+### Step 8 — The app: `payroll_report_app.py` *(on your own)*
 
-`transform.py`
+| widget | key | shows |
+| --- | --- | --- |
+| `st.title` | | `Salt City Coffee — Quarterly Payroll Report` |
+| `st.file_uploader` | `exports` | `accept_multiple_files=True`; the roster comes from `load_employees()` |
+| `st.warning` | | only if some rows have no `department` — and it names their `employeeid`s; those rows are left out of everything below |
+| `st.selectbox` | `department` | `"All"` plus each department |
+| `st.date_input` | `dates` | a `(start, end)` range, defaulting to the first and last pay date |
+| `st.metric` ×4 | | `Weeks`, `Employees`, `Total hours` (as `3,107.00`), `Total gross pay` (as `$57,761.63`) |
+| `st.bar_chart` | | `pay_by_month(...)` with `x="month"` |
+| `st.dataframe` ×3 | | `summarize_employees(...)`, `hours_grid(...)`, `missed_weeks(...)` |
+| `st.download_button` | `download` | `pay_by_month(...)` as CSV, for the accountant |
 
-The bulk of the work is done in the transform process. Here we read our data from the cache back into pandas. From there we will clean the data, engineer new columns, join datasets together, etc all on route to producing a dataset from which we can create the reports. In the final transformation step, we write the reports back to the cache. 
+Every report uses the **filtered** history: the rows in the chosen department (or all)
+whose `pay_date` is in the chosen range. Nothing below the uploader appears until files
+are chosen. The new widgets are in [Reference #7](#7-how-do-i-take-many-files-a-date-range-and-draw-a-bar-chart).
 
+Upload all twelve files from `data/exports/` (select them all in the file dialog) and
+compare with the screenshot: 12 weeks, 12 employees, 3,107.00 hours, $57,761.63. Pick
+**Kitchen** and narrow the dates to September: 4 weeks, 354.50 hours, $7,172.27.
 
+![Screenshot of payroll_report_app.py](payroll_report_app.png)
+
+Make `pytest tests/test_pipeline.py -k app` pass, then run the whole suite.
+
+### Step 9 — Commit
+
+Commit `report app`, push, submit.
+
+### Step 10 — Write your reflection
+
+Read `reflection.md`, then write yours in `code/reflection.txt`. Be **specific**, use the
+**terminology** from this assignment (grain, long vs. wide, vectorized `.str` methods,
+coerce, `NaT`, `pd.to_datetime` format, `.dt`, `concat`, `ignore_index`, group by, named
+aggregation, `reset_index`, `pivot_table`, `fill_value`, `melt`, lineage), and make it
+**actionable**.
+
+### Step 11 — Final submit
+
+Commit `assignment complete`, push, and submit again. Read your feedback and fix
+anything flagged — you get multiple attempts before the due date.
+
+---
+## Reference — How do I…?
+
+### 1. Lineage or grain — which rule applies to which step?
+
+| step returns… | example | the rule |
+| --- | --- | --- |
+| the **same rows, more columns** | `add_clean_columns`, `add_date_parts`, `add_roster` | **lineage** (Assignment 04): copy, add, return; never overwrite, drop, rename, or modify the caller's frame |
+| a **new table at a new grain** | `summarize_employees`, `hours_grid`, `pay_by_month` | build it from the history, and **leave the history untouched** |
+
+Grain is "what one row stands for." The history is one row per person per week; the
+summary is one row per person; `pay_by_month` is one row per month. A group-by doesn't
+destroy lineage — every number in the summary still traces to a group of history rows —
+but it does start a new table, so there are no "input columns" to preserve. The tests
+check both: `assert_lineage` for widening steps, `assert_unmodified` for everything.
 
-**1. First load the data from the cache:**
+### 2. How do I clean a whole column with `.str`?
+
+`.str` is a doorway on a Series: any string method you put after it runs on **every
+value** and returns a new Series, in the same order. No `apply`, no loop:
+
+```python
+ids.str.strip()                  # " e004" -> "e004"   (every value)
+ids.str.strip().str.upper()      # chain them: "e004" -> "E004"
+ids.str[1:]                      # slicing works too: "E4" -> "4"
+digits.str.zfill(3)              # pad with zeros: "4" -> "004"
+"E" + digits                     # a string plus a Series adds to every value
+values.str.replace("$", "", regex=False)
+names.str.split(",")             # every value becomes a list ...
+names.str.split(",").str[0]      # ... and .str[0] takes item 0 of every list
+```
 
-- Load the states and survey data from the cache into dataframes. `states_data` and `survey_data`
-- create a unique list of years from the survey data
-- For each year in the survey data, load the cost of living data from the cache into a dataframe, then combine all the dataframes into a single cost of living (COL) dataframe `col_data`
+`regex=False` tells `replace` to look for the literal character — in a regular
+expression, `$` means "end of the line."
 
+To turn the cleaned text into numbers, use `pd.to_numeric(cleaned, errors="coerce")`:
+anything it can't read becomes `NaN` instead of an exception. Then `.fillna(0.0)`.
 
-**2. Merge the survey data with the cost of living data:**
+### 3. How do I parse dates, and what is `NaT`?
 
-Next, we want to join the `survey_data` with the `col_data` matching on year and city. The problem is the city formats of both datasets are different. Thereore to match "Seattle, WA, United States" from the `col_data` to the `survey_data`, we will need to clean-up and engineer several columns. 
+```python
+pd.to_datetime(values, format="%m/%d/%Y", errors="coerce")
+```
 
-- First, clean the entry under "Which country do you work in?" so that all US countries say "United States" use the `clean_country_usa` function in `pandaslib.py` function here and generate a new column `_country`
-- Next under the "If you're in the U.S., what state do you work in?" column we need to convert the states into state codes Example: "New York => NY" to do this, join the states dataframe to the survey dataframe. User and inner join to drop non-matches. Call the new dataframe `survey_states_combined`
-- Engineer a new column consisting of the city, a comma, the 2-character state abbreviation, another comma and `_country` For example: "Syracuse, NY, United States". name this column `_full_city`
-- create the dataframe `combined` by matching the `survey_states_combined` to cost of living data matching on the `year` and `_full_city` columns
+`format=` is a promise about *every* value: `%m/%d/%Y` reads `"08/14/2026"` and
+`"8/14/2026"`; `%Y-%m-%d` reads `"2026-09-25"`. Anything that doesn't fit becomes
+**`NaT`** ("not a time"), the date version of `NaN` — `pd.isna` finds both. A column with
+two formats needs two passes, then `first.fillna(second)` to fill one result's holes from
+the other.
 
-**3. Normalize the annual salary based on cost of living:**
+Leave `format=` off and pandas *guesses*, and the guess for `"03/04/2026"` depends on the
+computer. That's why the structure tests insist on a format.
 
-Finally we want to normalize each annual salary based on cost of living. How do you do this? A COL 90 means the cost of living is 90% of the average, so $100,000 in a COL city of 90 is the equivalent buying power of(100/90) * $100,000 ==  $111,111.11 
+Once a column is a real datetime, `.dt` is its doorway, the way `.str` is for text:
 
-- Clean the salary column so that its a float. Use `clean_currency` function in `pandaslib.py`. generate a new column `__annual_salary_cleaned`
-- generate a column `_annual_salary_adjusted` based on this formula. 
+```python
+history["pay_date"].dt.strftime("%Y-%m")   # "2026-08" for every row
+history["pay_date"].dt.date                # plain dates, to compare with st.date_input
+history["pay_date"].min()                  # dates sort and compare like numbers
+```
 
-**4. Dataset is engineered, time to produce the reports:**
+### 4. How do I stack many files into one DataFrame?
 
-At this point you have engineerd the dataset required to produce the necessary reports.
+```python
+pd.concat(list_of_frames, ignore_index=True)
+```
 
-- Save the engineered dataset to the cache `survey_dataset.csv`
-- create the first report to show a pivot table of the the average `_annual_salary_adjusted` with `_full_city` in the row and Age band (How old are you?) in the column. Save this back to the cache as `annual_salary_adjusted_by_location_and_age.csv`
-- create a similar report but show highest level of education in the column. Save this back to the cache as `annual_salary_adjusted_by_location_and_education.csv`
+The frames go one under the other, matched by column name (lesson 3-3). Each weekly
+export numbers its rows from 0, so without `ignore_index=True` the result has twelve row
+0s — and `history.loc[0]` returns twelve rows instead of one.
 
-After you've completed this part commit your changes to git, but DO NOT PUSH.
+### 5. How do I group by, and name the results?
 
+```python
+summary = (
+    history.groupby(["employee_id", "display_name", "department"])
+    .agg(
+        weeks_paid=("week_ending", "count"),
+        total_hours=("hours_worked", "sum"),
+        ...
+    )
+    .reset_index()
+)
+```
 
-`load.py`
+Each keyword in `.agg` is a new column: `new_name=("column", "how")`, where `"how"` is
+`"count"`, `"sum"`, `"mean"`, `"nunique"`, … or a function. A lambda receives **one
+group's** values as a Series, so `lambda hours: (hours > 40.0).sum()` counts that
+person's overtime weeks (`True` counts as 1).
 
-Much of the load process has been written for you. Its not the point of the exercise, the plan is to expose you to something new. You will be saving the reports to an AWS S3 bucket (cloud-based object storage). In this case we will use the Minio Playground.
+The grouped columns end up in the **index** — `reset_index()` brings them back as
+ordinary columns. And a row whose key is `NaN` is left out of every group, silently —
+which is why the app warns about unmatched IDs before it summarizes anything.
 
-- save the 3 files to minio AWS S3 compatible object storage by calling the `upload_file()` function. Verify it worked by going to going to: 
-https://play.min.io
+### 6. How do I pivot and melt?
 
-  URL       : https://play.min.io
-  AccessKey : Q3AM3UQ867SPQQA43P2F
-  SecretKey : zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG
+**Long → wide** with `pivot_table`: pick the column that goes down the side (`index=`),
+the one that spreads across the top (`columns=`), the one in the cells (`values=`), and
+how to combine duplicates (`aggfunc=`):
 
+```python
+history.pivot_table(index=["employee_id", "display_name"], columns="week_ending",
+                    values="hours_worked", aggfunc="sum", fill_value=0)
+```
 
-After you've completed this part commit your changes to git, but DO NOT PUSH.
+`fill_value=0` puts a 0 where there was no row — otherwise it's `NaN`. Then
+`reset_index()` to turn the index back into columns.
 
+**Wide → long** with `melt`: the `id_vars=` columns stay put, and every other column
+becomes a (`var_name`, `value_name`) pair, one row each:
 
-## Commit Requirements
+```python
+grid.melt(id_vars=["employee_id", "display_name"], var_name="week_ending", value_name="hours_worked")
+```
 
-If you followed directions, you should have your 4 git commits minimum. Its okay to have more, but you should have at least 4.
+The round trip is the trick in `missed_weeks`: the pivot *created* a cell for every
+employee and week, so after melting there is a row — with 0 hours — for every week
+someone wasn't paid. Lesson 3-6's polling challenge uses the same move to find absences.
 
-## Turning it in
+### 7. How do I take many files, a date range, and draw a bar chart?
 
-- Make sure tests pass and code works as expected
-- Write your reflection in `reflection.md`
-- Commit your changes: VS Code -> menu -> View -> Source Control -> Enter Commit message -> Click "Commit"
-- Push your changes: VS Code -> menu -> View -> Source Control -> Click "Sync Changes"
+```python
+uploads = st.file_uploader("...", type=["csv"], accept_multiple_files=True, key="exports")
+```
 
-## Grading 
+returns a **list** of files (empty until some are chosen), so `if uploads:` works, and
+`[load_export(u) for u in uploads]` loads them all.
 
-🤖 Beep, Boop. This assignment is bot-graded! When you push your code to GitHub, my graderbot is notified there is something to grade. The bot then takes the following actions:
+```python
+dates = st.date_input("Pay dates", value=(first, last), min_value=first, max_value=last, key="dates")
+```
 
-1. Your assignment repository is cloned from Github
-2. The bot checks your code and commits according to guidelines outlined in `assignment-criteria.json` (it runs tests, checking code correctness, etc.)
-3. The bot reads your `reflection.md` and provides areas for improvement (based on the instructions in the file).
-4. A grade is assigned by the bot. Feedback is generated including justification for the grade given.
-5. The grade and feedback are posted to Blackboard.
+with a tuple `value` is a range picker. While the user is mid-pick it can return just
+one date, so unpack carefully: `start, end = dates if len(dates) == 2 else (dates[0], dates[0])`.
 
-You are welcome to review the bot's feedback and improve your submission as often as you like.
+```python
+st.bar_chart(monthly, x="month")
+```
 
-**NOTE: ** Consider this an experiment in the future of education. The graderbot is an AI teaching assistant. Like a human grader, it will make mistakes. Please feel free to question the bots' feedback! Do not feel as if you should gamify the bot. Talk to me! Like a person, we must teach it how to do its job effectively. 
+draws one bar group per `month`, one color per remaining column — which is why
+`pay_by_month` is wide.
+
+### 8. How do I run automated tests?
+
+Open **Testing** in the activity bar (View → Testing). Press ▶ next to a test to run it,
+or ▶ at the top to run them all. Click a failed test to see the assertion, expected vs.
+actual, and the line number.
+
+From a terminal at the repository root:
+
+```
+pytest tests/test_unit.py -v
+pytest tests/test_pipeline.py -k summarize     # one step at a time: combine, clean, roster, grid, app ...
+pytest tests/test_code.py -v
+```
+
+**If the Testing panel shows no tests at all**, or `pytest` stops with
+`ImportError ... payroll`: `payroll/__init__.py` imports every pipeline function by
+name, so a function that does not exist (a deleted signature, a typo in a name) stops
+the whole package from importing. Scroll up to the `ImportError`; it names the missing
+function. If instead the error mentions `streamlit.testing`, run
+`pip install -r requirements.txt`.
+
+### 9. How do I debug a pipeline step?
+
+Tests don't stop at breakpoints, but scripts do. Open `code/explore.py`, set a
+breakpoint inside the function you're working on (in `history.py`, say), and run
+`explore.py` with **Python Debugger: Current File**. When it stops, the **VARIABLES**
+panel shows every DataFrame — expand one to see its columns and values. Without
+breakpoints, `explore.py` just prints each step's result.
+
+For the app, **Streamlit Run: Current File** is a real debug session too: set a
+breakpoint, upload files in the browser, and VS Code stops there. See Assignment 03 for
+opening the app (port **28502**, or the **PORTS** tab in Codespaces).
+
+### 10. How do I commit my changes in VS Code?
+
+View → Source Control. Type a commit message in the box, then click **Commit**. Commit
+after each step — not once at the end.
+
+### 11. How do I push my code to GitHub?
+
+In Source Control, click **Sync Changes** (or the ⋯ menu → Push). In Codespaces you're
+already signed in.
+
+### 12. How do I see my code on GitHub?
+
+Open your fork in the browser: `https://github.com/YOUR-GITHUB-USERNAME/assignment_05`.
+If your latest change isn't there, it isn't pushed — and GraderThan won't see it.
+
+### 13. How do I submit for grading — and review my feedback — with GraderThan?
+
+GraderThan runs the autograder (unit, pipeline & app, and structure tests) and an AI
+reviewer (code style, reflection) against your fork, then gives you a score and
+per-criterion feedback.
+
+**Submit:**
+
+1. Go to **https://graderthan.cent-su.org** and log in with your SU Microsoft account.
+2. On **Your dashboard**, click this assignment.
+3. **First time only:** if you see **"Link your GitHub account first,"** click
+   **Profile** → **Connect GitHub** and authorize it.
+4. Under **Request grading**, submit your **fork's GitHub URL**
+   (e.g. `https://github.com/YOUR-GITHUB-USERNAME/assignment_05`). Click **Submit for
+   Grading and Feedback.**
+
+> Always **commit and push before you submit** — GraderThan only sees what's on GitHub.
+> You get multiple attempts, so submit early and often.
+
+**Review your feedback:** scroll to **"Your submissions"** and click one. `AUTOMATED`
+criteria show the raw test output (e.g. `26/26 tests passed`) with the names of any
+failing tests; `AI-JUDGED` criteria show a written paragraph and a **"How to improve"**
+tip.
+
+---
+## The Assignment — what to actually do
+
+### 1. The pipeline — `code/payroll/`
+
+`extract.py` and `__init__.py` are provided. You write the thirteen functions below.
+
+| module | function | returns |
+| --- | --- | --- |
+| `history.py` | `clean_employee_id(ids)` | a Series of `"E004"`-style IDs |
+| | `clean_number(values)` | a Series of floats; `0.0` where unreadable |
+| | `parse_pay_date(values)` | a datetime Series, either format; `NaT` where unreadable |
+| | `combine_exports(exports)` | every row of every export, one fresh index |
+| | `add_clean_columns(history)` | a copy with `employee_id`, `pay_date`, `hours_worked`, `rate_usd`, `gross_pay` added |
+| | `add_date_parts(history)` | a copy with `week_ending` and `month` added |
+| `summarize.py` | `format_name(names)` | a Series of `"First Last"` names |
+| | `add_roster(history, employees)` | the history with `display_name` and `department` added; unknown IDs get `NaN` |
+| | `build_history(exports, employees)` | raw exports in, finished history out — the four steps chained |
+| | `summarize_employees(history)` | one row per employee: weeks, hours, pay, average, overtime weeks |
+| `reshape.py` | `hours_grid(history)` | employees × weeks, hours in the cells, 0 for a missed week |
+| | `missed_weeks(grid)` | one row per (employee, week) with zero hours |
+| | `pay_by_month(history)` | months × departments, gross pay in the cells |
+
+### 2. The page — `code/payroll_report_app.py`
+
+Upload a quarter of exports; filter by department and dates; see four metrics, a bar
+chart of pay by month, the employee summary, the hours grid and the missed weeks; and
+download the accountant's CSV — exactly as specified in
+[Step 8](#step-8--the-app-payroll_report_apppy-on-your-own).
+
+### 3. Reflection
+
+Read `reflection.md`, then write your reflection in `code/reflection.txt`.
+
+---
+## How You're Graded
+
+GraderThan scores this assignment out of **10 points** (see `rubric.json`):
+
+| What | Points | Judged by |
+| --- | --- | --- |
+| **Unit Tests** — `test_unit.py` (the four Series functions) | 2 | automated tests |
+| **Pipeline & App Tests** — `test_pipeline.py` (lineage and grain on every step, the real quarter, generated histories, the page) | 3 | automated tests |
+| **Code Structure Tests** — `test_code.py` (`.str`, `to_datetime`, `groupby`, `pivot_table`, `melt`, the lineage rule) | 2 | automated tests |
+| Code style & readability | 1 | AI reviewer |
+| Reflection quality | 2 | AI reviewer |
+
+**Only files in the `code/` folder are graded.** Commit, push, and submit
+([Reference #10–13](#10-how-do-i-commit-my-changes-in-vs-code)) to get your score and
+feedback.
