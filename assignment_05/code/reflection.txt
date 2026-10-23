@@ -1,0 +1,23 @@
+# Reflection — Quarterly Payroll Report 
+
+ **Combining and cleaning.** I combined all the weekly 
+ files into one table and cleaned up employee IDs so they
+  matched correctly. I also changed invalid money values
+   into missing values instead of getting errors.  
+   
+   **Dates.** I used `pd.to_datetime` to handle 
+   different date formats and `strftime` to format 
+   the weeks and months.  **Lineage.** I kept the 
+   original columns and source file information so I
+   could track where the data came from. I also fixed a 
+   column naming issue that showed up in the tests.  
+   
+   **Group by and reshaping.** I used `groupby` to 
+   summarize each employee and `pivot_table` and `melt` 
+   to find missing weeks.  **Next time.** I'll check the
+    raw data first, check row counts after merges, and 
+    read test errors carefully. My tests went from 6 
+    failures to 0.  **In my own words.** The hardest 
+    part was getting the employee IDs and dates to match.
+     Once I learned how to clean the data, the rest 
+     started making more sense.

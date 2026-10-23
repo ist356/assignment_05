@@ -12,7 +12,7 @@ Three functions:
 - `missed_weeks` — wide back to long, to find something the long table could
   never show you: the weeks a person was **not** paid. Nobody's absence is a row
   in an export. It only exists once the grid has filled the gap with a zero.
-- `pay_by_month` — months down the side, departments across the top: the table
+- `pay_by_month` — months down the sid, departments across the top: the table
   the accountant asked for, and the shape `st.bar_chart` wants.
 
 No walkthrough. The docstrings say what each function returns; `tests/` says
@@ -33,8 +33,18 @@ def hours_grid(history: pd.DataFrame) -> pd.DataFrame:
     `NaN` — for a week they were not paid. Use `pivot_table` with
     `fill_value=0`.
     """
-    # TODO: your code here
-    pass
+    grid = history.pivot_table(
+        index=["employee_id", "display_name"],
+        columns="week_ending",
+        values="hours_worked",
+        aggfunc="sum",
+        fill_value=0,
+    )
+    # week_ending labels are ISO text, so sorting them as text is date order.
+    grid = grid.reindex(columns=sorted(grid.columns))
+    # rename_axis drops the leftover "week_ending" header label above the columns.
+    grid = grid.rename_axis(columns=None)
+    return grid.reset_index().sort_values("employee_id").reset_index(drop=True)
 
 
 def missed_weeks(grid: pd.DataFrame) -> pd.DataFrame:
@@ -48,8 +58,16 @@ def missed_weeks(grid: pd.DataFrame) -> pd.DataFrame:
     `melt` the grid back to long (the two name columns stay put; the week
     columns become `week_ending` / `hours_worked` pairs), then keep the zeros.
     """
-    # TODO: your code here
-    pass
+    id_cols = ["employee_id", "display_name"]
+    week_cols = [col for col in grid.columns if col not in id_cols]
+    long = grid.melt(
+        id_vars=id_cols,
+        value_vars=week_cols,
+        var_name="week_ending",
+        value_name="hours_worked",
+    )
+    missed = long[long["hours_worked"] == 0]
+    return missed.sort_values(["employee_id", "week_ending"]).reset_index(drop=True)
 
 
 def pay_by_month(history: pd.DataFrame) -> pd.DataFrame:
@@ -63,5 +81,17 @@ def pay_by_month(history: pd.DataFrame) -> pd.DataFrame:
     This is the CSV the accountant imports, and — with `month` as the x axis —
     exactly the shape `st.bar_chart` draws as one bar per department.
     """
-    # TODO: your code here
-    pass
+    table = history.pivot_table(
+        index="month",
+        columns="department",
+        values="gross_pay",
+        aggfunc="sum",
+        fill_value=0.0,
+    )
+    # Round after summing: adding many cent values in floating point can leave
+    # tails like 1029.0000000001.
+    table = table.round(2).astype(float)
+    table = table.reindex(columns=sorted(table.columns))
+    # rename_axis drops the leftover "department" header label above the columns.
+    table = table.rename_axis(columns=None)
+    return table.reset_index().sort_values("month").reset_index(drop=True)

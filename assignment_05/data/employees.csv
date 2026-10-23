@@ -1,0 +1,13 @@
+employee_id,name,department,hourly_rate
+E001,"Job, Anita",Barista,$18.50
+E002,"Tefarian, Ross",Barista,$17.75
+E003,"Erchief, Hank",Kitchen,$19.00
+E004,"Stuffismission, Oliver",Kitchen,$20.25
+E005,"O'Furniture, Patty",Register,$16.50
+E006,"Moss, Pete",Barista,$18.00
+E007,"Docktur-Indahaus, Sara",Kitchen,$21.00
+E008,"Itupp, Tally",Register,$16.50
+E009,"Rhee, Victor",Barista,$18.50
+E010,"Delyons, Dan",Kitchen,$19.50
+E011,"Karfurless, Lisa",Register,$17.00
+E012,"Moni, Otto",Barista,$17.50
